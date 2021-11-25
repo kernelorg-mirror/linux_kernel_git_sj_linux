@@ -762,13 +762,6 @@ static const struct snd_soc_dapm_widget cs35l41_dapm_widgets[] = {
 	SND_SOC_DAPM_SIGGEN("VBST"),
 	SND_SOC_DAPM_SIGGEN("TEMP"),
 
-<<<<<<< HEAD
-	SND_SOC_DAPM_ADC("VMON ADC", NULL, CS35L41_PWR_CTRL2, 12, 0),
-	SND_SOC_DAPM_ADC("IMON ADC", NULL, CS35L41_PWR_CTRL2, 13, 0),
-	SND_SOC_DAPM_ADC("VPMON ADC", NULL, CS35L41_PWR_CTRL2, 8, 0),
-	SND_SOC_DAPM_ADC("VBSTMON ADC", NULL, CS35L41_PWR_CTRL2, 9, 0),
-	SND_SOC_DAPM_ADC("TEMPMON ADC", NULL, CS35L41_PWR_CTRL2, 10, 0),
-=======
 	SND_SOC_DAPM_SUPPLY("VMON", CS35L41_PWR_CTRL2, 12, 0, NULL, 0),
 	SND_SOC_DAPM_SUPPLY("IMON", CS35L41_PWR_CTRL2, 13, 0, NULL, 0),
 	SND_SOC_DAPM_SUPPLY("VPMON", CS35L41_PWR_CTRL2, 8, 0, NULL, 0),
@@ -781,7 +774,6 @@ static const struct snd_soc_dapm_widget cs35l41_dapm_widgets[] = {
 	SND_SOC_DAPM_ADC("VBSTMON ADC", NULL, SND_SOC_NOPM, 0, 0),
 	SND_SOC_DAPM_ADC("TEMPMON ADC", NULL, SND_SOC_NOPM, 0, 0),
 
->>>>>>> linux-next/akpm-base
 	SND_SOC_DAPM_ADC("CLASS H", NULL, CS35L41_PWR_CTRL3, 4, 0),
 
 	SND_SOC_DAPM_OUT_DRV_E("Main AMP", CS35L41_PWR_CTRL2, 0, 0, NULL, 0,
@@ -865,12 +857,9 @@ static const struct snd_soc_dapm_route cs35l41_audio_map[] = {
 	{"VPMON ADC", NULL, "VP"},
 	{"VBSTMON ADC", NULL, "VBST"},
 	{"TEMPMON ADC", NULL, "TEMP"},
-<<<<<<< HEAD
-=======
 
 	{"DSP1 Preload", NULL, "DSP1 Preloader"},
 	{"DSP1", NULL, "DSP1 Preloader"},
->>>>>>> linux-next/akpm-base
 
 	{"ASPRX1", NULL, "AMP Playback"},
 	{"ASPRX2", NULL, "AMP Playback"},

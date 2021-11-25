@@ -45,12 +45,9 @@ config SND_SOC_SOF_OF
 	  required to enable i.MX8 or Mediatek devices.
 	  Say Y if you need this option. If unsure select "N".
 
-<<<<<<< HEAD
-=======
 config SND_SOC_SOF_OF_DEV
 	tristate
 
->>>>>>> linux-next/akpm-base
 config SND_SOC_SOF_COMPRESS
 	bool
 	select SND_SOC_COMPRESS
