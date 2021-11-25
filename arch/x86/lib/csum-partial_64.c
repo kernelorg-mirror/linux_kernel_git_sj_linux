@@ -21,6 +21,24 @@ static inline unsigned short from32to16(unsigned a)
 	return b;
 }
 
+static inline unsigned long long load_partial_long(const void *buff, int len)
+{
+#ifndef CONFIG_DCACHE_WORD_ACCESS
+	union {
+		unsigned long   ulval;
+		u8              bytes[sizeof(long)];
+	} v;
+
+	v.ulval = 0;
+	memcpy(v.bytes, buff, len);
+	return v.ulval;
+#else
+	unsigned int shift = (sizeof(long) - len) * BITS_PER_BYTE;
+
+	return (load_unaligned_zeropad(buff) << shift) >> shift;
+#endif
+}
+
 /*
  * Do a checksum on an arbitrary memory area.
  * Returns a 32bit checksum.
@@ -91,11 +109,9 @@ __wsum csum_partial(const void *buff, int len, __wsum sum)
 			: "memory");
 		buff += 8;
 	}
-	if (len & 7) {
-		unsigned int shift = (8 - (len & 7)) * 8;
-		unsigned long trail;
-
-		trail = (load_unaligned_zeropad(buff) << shift) >> shift;
+	len &= 7;
+	if (len) {
+		unsigned long trail = load_partial_long(buff, len);
 
 		asm("addq %[trail],%[res]\n\t"
 		    "adcq $0,%[res]"
