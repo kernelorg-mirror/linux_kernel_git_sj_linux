@@ -101,11 +101,13 @@ enum regulator_detection_severity {
  *		is requested.
  * @set_over_voltage_protection: Support enabling of and setting limits for over
  *	voltage situation detection. Detection can be configured for same
- *	severities as over current protection.
+ *	severities as over current protection. Units of uV.
  * @set_under_voltage_protection: Support enabling of and setting limits for
- *	under situation detection.
+ *	under voltage situation detection. Detection can be configured for same
+ *	severities as over current protection. Units of uV.
  * @set_thermal_protection: Support enabling of and setting limits for over
- *	temperature situation detection.
+ *	temperature situation detection.Detection can be configured for same
+ *	severities as over current protection. Units of degree Kelvin.
  *
  * @set_active_discharge: Set active discharge enable/disable of regulators.
  *
@@ -499,7 +501,8 @@ struct regulator_irq_data {
  *		best to shut-down regulator(s) or reboot the SOC if error
  *		handling is repeatedly failing. If fatal_cnt is given the IRQ
  *		handling is aborted if it fails for fatal_cnt times and die()
- *		callback (if populated) or BUG() is called to try to prevent
+ *		callback (if populated) is called. If die() is not populated
+ *		poweroff for the system is attempted in order to prevent any
  *		further damage.
  * @reread_ms:	The time which is waited before attempting to re-read status
  *		at the worker if IC reading fails. Immediate re-read is done
@@ -516,11 +519,12 @@ struct regulator_irq_data {
  * @data:	Driver private data pointer which will be passed as such to
  *		the renable, map_event and die callbacks in regulator_irq_data.
  * @die:	Protection callback. If IC status reading or recovery actions
- *		fail fatal_cnt times this callback or BUG() is called. This
- *		callback should implement a final protection attempt like
- *		disabling the regulator. If protection succeeded this may
- *		return 0. If anything else is returned the core assumes final
- *		protection failed and calls BUG() as a last resort.
+ *		fail fatal_cnt times this callback is called or system is
+ *		powered off. This callback should implement a final protection
+ *		attempt like disabling the regulator. If protection succeeded
+ *		die() may return 0. If anything else is returned the core
+ *		assumes final protection failed and attempts to perform a
+ *		poweroff as a last resort.
  * @map_event:	Driver callback to map IRQ status into regulator devices with
  *		events / errors. NOTE: callback MUST initialize both the
  *		errors and notifs for all rdevs which it signals having

@@ -1908,8 +1908,8 @@ static int mmc_blk_card_busy(struct mmc_card *card, struct request *req)
 
 	cb_data.card = card;
 	cb_data.status = 0;
-	err = __mmc_poll_for_busy(card, MMC_BLK_TIMEOUT_MS, &mmc_blk_busy_cb,
-				  &cb_data);
+	err = __mmc_poll_for_busy(card->host, MMC_BLK_TIMEOUT_MS,
+				  &mmc_blk_busy_cb, &cb_data);
 
 	/*
 	 * Do not assume data transferred correctly if there are any error bits
@@ -2395,10 +2395,8 @@ static struct mmc_blk_data *mmc_blk_alloc_req(struct mmc_card *card,
 	md->disk->private_data = md;
 	md->parent = parent;
 	set_disk_ro(md->disk, md->read_only || default_ro);
-	md->disk->flags = GENHD_FL_EXT_DEVT;
 	if (area_type & (MMC_BLK_DATA_AREA_RPMB | MMC_BLK_DATA_AREA_BOOT))
-		md->disk->flags |= GENHD_FL_NO_PART_SCAN
-				   | GENHD_FL_SUPPRESS_PARTITION_INFO;
+		md->disk->flags |= GENHD_FL_NO_PART;
 
 	/*
 	 * As discussed on lkml, GENHD_FL_REMOVABLE should:

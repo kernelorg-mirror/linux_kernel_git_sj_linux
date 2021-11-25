@@ -211,7 +211,7 @@ config DRM_TTM_HELPER
 	  Helpers for ttm-based gem objects
 
 config DRM_GEM_CMA_HELPER
-	bool
+	tristate
 	depends on DRM
 	help
 	  Choose this if you need the GEM CMA helper functions
@@ -224,7 +224,7 @@ config DRM_KMS_CMA_HELPER
 	  Choose this if you need the KMS CMA helper functions
 
 config DRM_GEM_SHMEM_HELPER
-	bool
+	tristate
 	depends on DRM && MMU
 	help
 	  Choose this if you need the GEM shmem helper functions
@@ -249,6 +249,7 @@ config DRM_RADEON
 	select HWMON
 	select BACKLIGHT_CLASS_DEVICE
 	select INTERVAL_TREE
+	select SND_HDA_COMPONENT if SND_HDA_CORE
 	help
 	  Choose this option if you have an ATI Radeon graphics card.  There
 	  are both PCI and AGP versions.  You don't need to choose this to
@@ -493,5 +494,9 @@ config DRM_PANEL_ORIENTATION_QUIRKS
 	tristate
 
 config DRM_LIB_RANDOM
+	bool
+	default n
+
+config DRM_PRIVACY_SCREEN
 	bool
 	default n
