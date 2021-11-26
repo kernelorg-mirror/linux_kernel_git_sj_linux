@@ -2,6 +2,6 @@
 # Makefile for damon selftests
 
 TEST_FILES = _chk_dependency.sh
-TEST_PROGS = debugfs_attrs.sh
+TEST_PROGS = debugfs.sh
 
 include ../lib.mk
