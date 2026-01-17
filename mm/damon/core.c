@@ -2751,8 +2751,6 @@ static void kdamond_init_ctx(struct damon_ctx *ctx)
 static int kdamond_fn(void *data)
 {
 	struct damon_ctx *ctx = data;
-	struct damon_target *t;
-	struct damon_region *r, *next;
 	unsigned int max_nr_accesses = 0;
 	unsigned long sz_limit = 0;
 
@@ -2857,10 +2855,7 @@ static int kdamond_fn(void *data)
 		}
 	}
 done:
-	damon_for_each_target(t, ctx) {
-		damon_for_each_region_safe(r, next, t)
-			damon_destroy_region(r, t);
-	}
+	damon_destroy_targets(ctx);
 
 	kfree(ctx->regions_score_histogram);
 	kdamond_call(ctx, true);
@@ -2878,7 +2873,6 @@ done:
 		running_exclusive_ctxs = false;
 	mutex_unlock(&damon_lock);
 
-	damon_destroy_targets(ctx);
 	return 0;
 }
 
