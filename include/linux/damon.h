@@ -761,7 +761,7 @@ struct damon_filter {
 	bool matching;
 	bool allow;
 	union {
-		u64 memcg_id;
+		unsigned short memcg_id;
 	};
 	struct list_head list;
 };
