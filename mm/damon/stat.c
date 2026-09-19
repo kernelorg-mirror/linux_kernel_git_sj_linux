@@ -247,11 +247,8 @@ static int damon_stat_start(void)
 	if (!damon_stat_context)
 		return -ENOMEM;
 	err = damon_start(&damon_stat_context, 1, true);
-	if (err) {
-		damon_destroy_ctx(damon_stat_context);
-		damon_stat_context = NULL;
+	if (err)
 		return err;
-	}
 
 	damon_stat_last_refresh_jiffies = jiffies;
 	call_control.data = damon_stat_context;
